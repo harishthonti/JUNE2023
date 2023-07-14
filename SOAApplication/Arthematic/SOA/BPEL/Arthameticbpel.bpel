@@ -1,0 +1,109 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jun 26 16:09:18 IST 2023
+  Author:  Chandu
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Arthameticbpel"
+         targetNamespace="http://xmlns.oracle.com/SOAApplication/Arthematic/Arthameticbpel"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/SOAApplication/Arthematic/Arthameticbpel"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOAApplication/Arthematic/Arthameticbpel" location="../WSDLs/Arthameticbpel.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="arthameticbpel_client" partnerLinkType="client:Arthameticbpel" myRole="ArthameticbpelProvider" partnerRole="ArthameticbpelRequester"/>
+    </partnerLinks>
+    <variables>
+        <variable name="addinputvariable" messageType="client:ArthameticbpelRequestMessage"/>
+        <variable name="addoutputvariable" messageType="client:ArthameticbpelResponseMessage"/>
+        <variable name="Subinputvariable" messageType="client:ArthameticbpelRequestMessage"/>
+        <variable name="subouputvariable" messageType="client:ArthameticbpelResponseMessage"/>
+    </variables>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in Arthameticbpel.wsdl) -->
+
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <pick name="Pick1" createInstance="yes">
+            <onMessage bpelx:name="Add_OnMessage" partnerLink="arthameticbpel_client" variable="addinputvariable"
+                       portType="client:Arthameticbpel" operation="addoperation">
+                <sequence name="Sequence1">
+                    <assign name="Assign1">
+                        <copy>
+                            <from>$addinputvariable.payload/client:inputone + $addinputvariable.payload/client:inputtwo</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$addoutputvariable.payload</to>
+                        </copy>
+                        <copy>
+                            <from>"ADD"</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$addoutputvariable.payload</to>
+                        </copy>
+                    </assign>
+                    <invoke name="Add_callback" partnerLink="arthameticbpel_client"
+                            portType="client:ArthameticbpelCallback" operation="addResponseoperation"
+                            inputVariable="addoutputvariable" bpelx:invokeAsDetail="no"/>
+                </sequence>
+            </onMessage>
+            <onMessage bpelx:name="Sub_OnMessage" partnerLink="arthameticbpel_client" variable="Subinputvariable"
+                       portType="client:Arthameticbpel" operation="suboperation">
+                <sequence name="Sequence2">
+                    <assign name="Assign2">
+                        <copy>
+                            <from>$Subinputvariable.payload/client:inputone + $Subinputvariable.payload/client:inputtwo</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$subouputvariable.payload</to>
+                        </copy>
+                        <copy>
+                            <from>"SUB"</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$subouputvariable.payload</to>
+                        </copy>
+                    </assign>
+                    <reply name="Replysub" partnerLink="arthameticbpel_client" variable="subouputvariable"
+                           portType="client:Arthameticbpel" operation="suboperation"/>
+                </sequence>
+            </onMessage>
+        </pick>
+    </sequence>
+</process>

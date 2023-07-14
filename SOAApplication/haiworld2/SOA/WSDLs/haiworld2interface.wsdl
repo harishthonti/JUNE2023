@@ -1,0 +1,30 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="haiworld2interface"
+     targetNamespace="http://practice.com/demo/haiworld2/haiworld2interface"
+     xmlns:tns="http://practice.com/demo/haiworld2/haiworld2interface"
+     xmlns:inp1="practice/demo/haiworld2"
+     xmlns:inp2="http://practice.com/demo/res1"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="practice/demo/haiworld2" schemaLocation="../Schemas/req1.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://practice.com/demo/res1" schemaLocation="../Schemas/res1.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="res1" element="inp1:req"/>
+    </wsdl:message>
+    <wsdl:message name="replyMessage">
+        <wsdl:part name="res1" element="inp2:res"/>
+    </wsdl:message>
+    <wsdl:portType name="haiworld2porttype">
+        <wsdl:operation name="haiworld2">
+            <wsdl:input message="tns:requestMessage"/>
+            <wsdl:output message="tns:replyMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

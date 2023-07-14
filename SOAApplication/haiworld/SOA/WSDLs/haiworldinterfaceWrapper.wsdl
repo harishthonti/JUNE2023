@@ -1,0 +1,21 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="haiworldinterface"
+     targetNamespace="http://practice.com/demo/haiworld/interface"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://practice.com/demo/haiworld/interface"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://practice.com/demo/haiworld/req"
+    >
+    <plnk:partnerLinkType name="haiworldservice">
+        <plnk:role name="haiworldporttype" portType="tns:haiworldporttype"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://practice.com/demo/haiworld/interface" location="haiworldinterface.wsdl"/>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://practice.com/demo/haiworld/req" schemaLocation="../Schemas/reqdoc.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+</wsdl:definitions>
