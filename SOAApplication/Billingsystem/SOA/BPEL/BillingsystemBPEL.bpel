@@ -1,0 +1,86 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jul 17 16:04:47 IST 2023
+  Author:  Chandu
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BillingsystemBPEL" targetNamespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+  <import ui:processWSDL="true" namespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL"
+          location="../WSDLs/BillingsystemBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="billingsystembpel_client" partnerLinkType="client:BillingsystemBPEL"
+                 myRole="BillingsystemBPELProvider" partnerRole="BillingsystemBPELRequester"/>
+  </partnerLinks>
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BillingsystemBPELRequestMessage"/>
+    <!-- Reference to the message that will be sent back to the requester during callback -->
+    <variable name="outputVariable" messageType="client:BillingsystemBPELResponseMessage"/>
+    <variable name="callbackClient_BsResponse_InputVariable" messageType="client:BillingsystemBPELResponseMessage"/>
+    <variable name="callbackClient_BsResponse_InputVariable_1" messageType="client:BillingsystemBPELResponseMessage"/>
+    <variable name="receiveInput_Bsrequest_InputVariable" messageType="client:BillingsystemBPELRequestMessage"/>
+  </variables>
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BillingsystemBPEL.wsdl) -->
+    <receive name="receiveInput" partnerLink="billingsystembpel_client" portType="client:BillingsystemBPEL"
+             operation="Bsrequest" variable="receiveInput_Bsrequest_InputVariable" createInstance="yes"/>
+    <assign name="Transformation1">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/calculation.xsl", $inputVariable.payload)</from>
+        <to variable="outputVariable" part="payload"/>
+      </copy>
+    </assign>
+    <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+    <invoke name="callbackClient" partnerLink="billingsystembpel_client" portType="client:BillingsystemBPELCallback"
+            inputVariable="callbackClient_BsResponse_InputVariable_1" bpelx:invokeAsDetail="no" operation="BsResponse"/>
+  </sequence>
+</process>

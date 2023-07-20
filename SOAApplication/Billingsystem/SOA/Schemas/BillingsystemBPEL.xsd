@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+        targetNamespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="Bsrequest">
+    <complexType>
+      <sequence>
+        <element name="orderid" type="integer"/>
+        <element name="itemInfo" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <sequence>
+              <element name="itemName" type="string"/>
+              <element name="itemcost" type="integer"/>
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="Bsresponse">
+    <complexType>
+      <sequence>
+        <element name="orderid" type="integer"/>
+        <element name="iteminfo" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <sequence>
+              <element name="itemName" type="string"/>
+              <element name="itemcost" type="integer"/>
+            </sequence>
+          </complexType>
+        </element>
+        <element name="totalCost" type="integer"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>

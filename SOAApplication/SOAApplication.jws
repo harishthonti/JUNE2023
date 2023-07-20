@@ -28,6 +28,8 @@
    </list>
    <list n="listOfChildren">
       <hash><url n="URL" path="Arthematic/Arthematic.jpr"/></hash>
+      <hash><url n="URL" path="Billingsystem/Billingsystem.jpr"/></hash>
+      <hash><url n="URL" path="Cardvalidationsystem/Cardvalidationsystem.jpr"/></hash>
       <hash><url n="URL" path="haiworld/haiworld.jpr"/></hash>
       <hash><url n="URL" path="haiworld2/haiworld2.jpr"/></hash>
       <hash><url n="URL" path="helloworld/helloworld.jpr"/></hash>
