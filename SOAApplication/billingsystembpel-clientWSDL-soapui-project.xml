@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="13b69a1e-9e37-428f-97c6-b2099abb95f5" activeEnvironment="Default" name="billingsystembpel_clientWSDL" resourceRoot="" soapui-version="5.7.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="ec409fc4-ad0b-441a-bab6-3598b5e486cb" wsaVersion="200508" name="BillingsystemBPELBinding" type="wsdl" bindingName="{http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL}BillingsystemBPELBinding" soapVersion="1_1" anonymous="optional" definition="http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep</con:endpoint></con:endpoints><con:operation id="383933fb-01f8-4949-b26c-e103ab11c27b" isOneWay="false" action="Bsrequest" name="Bsrequest" bindingOperationName="Bsrequest" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="3f0d9801-9bcd-4133-8982-01faf71d7e51" name="Request 1" useWsAddressing="true"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bil="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <bil:Bsrequest>\r
+         <bil:orderid>?</bil:orderid>\r
+         <!--Zero or more repetitions:-->\r
+         <bil:itemInfo>\r
+            <bil:itemName>?</bil:itemName>\r
+            <bil:itemcost>?</bil:itemcost>\r
+         </bil:itemInfo>\r
+      </bil:Bsrequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="Bsrequest"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="c064c62b-42ea-475f-a694-e2568ebcc983" wsaVersion="NONE" name="BillingsystemBPELCallbackBinding" type="wsdl" bindingName="{http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL}BillingsystemBPELCallbackBinding" soapVersion="1_1" anonymous="optional" definition="http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep?WSDL"><con:part><con:url>http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep?WSDL</con:url><con:content><![CDATA[<wsdl:definitions name="BillingsystemBPEL" targetNamespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <abstractWSDL>http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem!1.0/WSDLs/BillingsystemBPEL.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="BillingsystemBPEL">
+    <plnk:role name="BillingsystemBPELProvider" portType="client:BillingsystemBPEL"/>
+    <plnk:role name="BillingsystemBPELRequester" portType="client:BillingsystemBPELCallback"/>
+  </plnk:partnerLinkType>
+  <wsp:Policy wsu:Id="wsaddr_policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+    <wsaw:UsingAddressing xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"/>
+  </wsp:Policy>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL" schemaLocation="http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep?XSD=../Schemas/BillingsystemBPEL.xsd"/>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="BillingsystemBPELRequestMessage">
+    <wsdl:part name="payload" element="client:Bsrequest"/>
+  </wsdl:message>
+  <wsdl:message name="BillingsystemBPELResponseMessage">
+    <wsdl:part name="payload" element="client:Bsresponse"/>
+  </wsdl:message>
+  <wsdl:portType name="BillingsystemBPEL">
+    <wsdl:operation name="Bsrequest">
+      <wsdl:input message="client:BillingsystemBPELRequestMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="BillingsystemBPELCallback">
+    <wsdl:operation name="BsResponse">
+      <wsdl:input message="client:BillingsystemBPELResponseMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BillingsystemBPELBinding" type="client:BillingsystemBPEL">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsp:PolicyReference URI="#wsaddr_policy" wsdl:required="false" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"/>
+    <wsdl:operation name="Bsrequest">
+      <soap:operation style="document" soapAction="Bsrequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BillingsystemBPELCallbackBinding" type="client:BillingsystemBPELCallback">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="BsResponse">
+      <soap:operation style="document" soapAction="BsResponse"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="billingsystembpel_client_ep">
+    <wsdl:port name="BillingsystemBPEL_pt" binding="client:BillingsystemBPELBinding">
+      <soap:address location="http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://laptop-jdda5fko:7101/soa-infra/services/default/Billingsystem/billingsystembpel_client_ep?XSD=../Schemas/BillingsystemBPEL.xsd</con:url><con:content><![CDATA[<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="Bsrequest">
+    <complexType>
+      <sequence>
+        <element name="orderid" type="integer"/>
+        <element name="itemInfo" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <sequence>
+              <element name="itemName" type="string"/>
+              <element name="itemcost" type="integer"/>
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="Bsresponse">
+    <complexType>
+      <sequence>
+        <element name="orderid" type="integer"/>
+        <element name="iteminfo" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <sequence>
+              <element name="itemName" type="string"/>
+              <element name="itemcost" type="integer"/>
+            </sequence>
+          </complexType>
+        </element>
+        <element name="totalCost" type="integer"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints/><con:operation id="b97d6de0-8d5f-4474-84f6-618e9b69fe0c" isOneWay="false" action="BsResponse" name="BsResponse" bindingOperationName="BsResponse" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1ec669b5-9d64-41a9-8474-4ad5bace190e" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bil="http://practice.com/SOAApplication/Billingsystem/BillingsystemBPEL">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <bil:Bsresponse>\r
+         <bil:orderid>?</bil:orderid>\r
+         <!--Zero or more repetitions:-->\r
+         <bil:iteminfo>\r
+            <bil:itemName>?</bil:itemName>\r
+            <bil:itemcost>?</bil:itemcost>\r
+         </bil:iteminfo>\r
+         <bil:totalCost>?</bil:totalCost>\r
+      </bil:Bsresponse>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="BsResponse"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
