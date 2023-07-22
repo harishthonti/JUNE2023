@@ -75,7 +75,7 @@
       <string v="oracle.jdeveloper.model.PathsConfiguration/cepContentSet"/>
       <string v="oracle.tip.tools.ide.ess.addin.ESSContentSetProvider/ess-content"/>
    </list>
-   <value n="defaultPackage" v="cardvalidationsysteam"/>
+   <value n="defaultPackage" v="designtimemdsproject"/>
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">
       <list n="technologyScope">
          <string v="SOA"/>
@@ -111,7 +111,7 @@
    </hash>
    <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
       <hash n="profileDefinitions">
-         <hash n="Cardvalidationsysteam">
+         <hash n="DesigntimeMDSproject">
             <hash n="archiveOptions">
                <value n="hasManifest" v="false"/>
             </hash>
@@ -198,18 +198,18 @@
                   </hash>
                </list>
             </hash>
-            <url n="jarURL" path="deploy/sca_Cardvalidationsysteam.jar"/>
+            <url n="jarURL" path="deploy/sca_DesigntimeMDSproject.jar"/>
             <value n="profileClass" v="oracle.tip.tools.ide.fabric.deploy.sar.SarProfile"/>
-            <value n="profileName" v="Cardvalidationsysteam"/>
+            <value n="profileName" v="DesigntimeMDSproject"/>
          </hash>
       </hash>
       <list n="profileList">
-         <string v="Cardvalidationsysteam"/>
+         <string v="DesigntimeMDSproject"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
-      <value n="j2eeWebAppName" v="SOAApplication-Cardvalidationsysteam-webapp"/>
-      <value n="j2eeWebContextRoot" v="SOAApplication-Cardvalidationsysteam-context-root"/>
+      <value n="j2eeWebAppName" v="SOAApplication-DesigntimeMDSproject-webapp"/>
+      <value n="j2eeWebContextRoot" v="SOAApplication-DesigntimeMDSproject-context-root"/>
    </hash>
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
